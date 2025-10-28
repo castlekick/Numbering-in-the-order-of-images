@@ -1,0 +1,22 @@
+import os
+
+# 📁 경로 설정
+folder_path = r"C:/Users/Administrator/Desktop/task/kimchi_all/images/train"
+
+# 이미지 파일 불러오기 (.jpg, .jpeg, .png)
+files = [f for f in os.listdir(folder_path) if f.lower().endswith(('.jpg', '.jpeg', '.png'))]
+
+# 📅 파일 생성시간 기준으로 정렬 (탐색기 표시 순서와 거의 동일)
+files.sort(key=lambda x: os.path.getctime(os.path.join(folder_path, x)))
+
+# 🔢 순서대로 이름 변경 (1부터 시작)
+for i, filename in enumerate(files, start=1):
+    ext = os.path.splitext(filename)[1].lower()  # 확장자 유지
+    new_name = f"{i}{ext}"                       # 예: 1.jpg, 2.jpg, ...
+    src = os.path.join(folder_path, filename)
+    dst = os.path.join(folder_path, new_name)
+    os.rename(src, dst)
+    print(f"{filename} → {new_name}")
+
+print("✅ 순서 유지 + 이름 숫자 변경 완료!")
+
